@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class DataAnalyzer{
     
     //binary search
@@ -47,14 +51,40 @@ public class DataAnalyzer{
     
     
     public static void main(String[] args) {
-        int[] arr = {10, 20, 30, 40, 50};
+        // int[] arr = {10, 20, 30, 40, 50};
 
-        System.out.println(searchList(arr, 50));
-        System.out.println(searchList(50,arr));
+        // System.out.println(searchList(arr, 50));
+        // System.out.println(searchList(50,arr));
         
-        int[] reversedArr = reverseList(arr);
+        // int[] reversedArr = reverseList(arr);
+        // System.out.print("Reversed List: ");
+        // for (int num : reversedArr) {
+        //     System.out.print(num + " ");
+        // }
+
+        int[] numbers = new int[100];
+        int index=0;
+        try {
+            File f = new File("numbers.txt");
+            try (Scanner input = new Scanner(f)) {
+                while(input.hasNextInt()&&index<numbers.length){
+                    numbers[index++]=input.nextInt();
+                }
+            }
+            
+        } catch (IOException e) {
+            System.out.println("file not found");
+        }
+        int target = 9; 
+        int linearResult = searchList(numbers, target);
+        System.out.println("Linear Search (" + target + "): " + ("Found at index " + linearResult));
+    
+        int binaryResult = searchList(target,numbers);
+        System.out.println("Binary Search (" + target + "): " + ("Found at index " + binaryResult));
+    
+        numbers = reverseList(numbers);
         System.out.print("Reversed List: ");
-        for (int num : reversedArr) {
+        for (int num : numbers) {
             System.out.print(num + " ");
         }
     }
