@@ -55,7 +55,7 @@ public class FileOperator {
     }
 
     public static void main(String[] args) {
-        FileOperator fileOp = new FileOperator("numbers.txt");
+        FileOperator fileOp = new FileOperator("albums.txt");
 
         int[] intData = fileOp.toIntArray(100);
         System.out.print("Integer Data: ");
