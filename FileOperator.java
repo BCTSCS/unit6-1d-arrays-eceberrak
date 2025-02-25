@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileOperator {
@@ -46,6 +47,48 @@ public class FileOperator {
                 int index = 0;
                 while (input.hasNextDouble() && index < arraySize) {
                     data[index++] = input.nextDouble();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("File not found: " + fileName);
+        }
+        return data;
+    }
+
+        public ArrayList<Integer> toIntList() {
+        ArrayList<Integer> data = new ArrayList<>();
+        try {
+            try (Scanner input = new Scanner(new File(fileName))) {
+                while (input.hasNextInt()) {
+                    data.add(input.nextInt());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("File not found: " + fileName);
+        }
+        return data;
+    }
+
+    public ArrayList<String> toStringList() {
+        ArrayList<String> data = new ArrayList<>();
+        try {
+            try (Scanner input = new Scanner(new File(fileName))) {
+                while (input.hasNext()) {
+                    data.add(input.next());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("File not found: " + fileName);
+        }
+        return data;
+    }
+
+    public ArrayList<Double> toDoubleList() {
+        ArrayList<Double> data = new ArrayList<>();
+        try {
+            try (Scanner input = new Scanner(new File(fileName))) {
+                while (input.hasNextDouble()) {
+                    data.add(input.nextDouble());
                 }
             }
         } catch (IOException e) {
