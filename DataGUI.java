@@ -1,13 +1,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 public class DataGUI extends JFrame {
     private final JTextField genreInput;
     private final JTextArea resultsArea;
-    private final JButton findArtistsButton, calculatePercentageButton;
 
     public DataGUI() {
         setTitle("Data Analyzer GUI");
@@ -19,8 +16,8 @@ public class DataGUI extends JFrame {
         resultsArea = new JTextArea(10, 30);
         resultsArea.setEditable(false);
 
-        findArtistsButton = new JButton("Find Artists by Genre");
-        calculatePercentageButton = new JButton("Calculate Genre Percentages");
+        JButton findArtistsButton = new JButton("Find Artists by Genre");
+        JButton calculatePercentageButton = new JButton("Calculate Genre Percentages");
 
         add(new JLabel("Enter Genre:"));
         add(genreInput);
@@ -28,52 +25,18 @@ public class DataGUI extends JFrame {
         add(calculatePercentageButton);
         add(new JScrollPane(resultsArea));
 
-        findArtistsButton.addActionListener((ActionListener) new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String genre = genreInput.getText().trim();
-                if (!genre.isEmpty()) {
-                    FileOperator artistFile = new FileOperator("artists.txt");
-                    FileOperator genreFile = new FileOperator("genres.txt");
-                    String[] artists = artistFile.toStringArray(498);
-                    String[] genres = genreFile.toStringArray(498);
-                    
-                    resultsArea.setText("Artists in " + genre + ":\n");
-                    for (int i = 0; i < genres.length; i++) {
-                        if (genres[i].equalsIgnoreCase(genre)) {
-                            resultsArea.append(artists[i] + "\n");
-                        }
-                    }
-                }
-            }
+        findArtistsButton.addActionListener((ActionEvent e) -> {
+            String genre = genreInput.getText();
+            resultsArea.setText("");
+            DataAnalyzer.findArtistsByGenre(genre, new String[]{"Artist1", "Artist2"}, new String[]{"Rock", "Pop"});
         });
-        
+
         calculatePercentageButton.addActionListener((ActionEvent e) -> {
-            FileOperator genreFile = new FileOperator("genres.txt");
-            String[] genres = genreFile.toStringArray(498);
-            
-            resultsArea.setText("Genre Percentages:\n");
-            int total = genres.length;
-            for (int i = 0; i < total; i++) {
-                boolean counted = false;
-                for (int j = 0; j < i; j++) {
-                    if (genres[i].equalsIgnoreCase(genres[j])) {
-                        counted = true;
-                        break;
-                    }
-                }
-                if (!counted) {
-                    int count = 0;
-                    for (int j = 0; j < total; j++) {
-                        if (genres[i].equalsIgnoreCase(genres[j])) {
-                            count++;
-                        }
-                    }
-                    resultsArea.append(genres[i] + ": " + String.format("%.2f", (count * 100.0 / total)) + "%\n");
-                }
-            }
+            resultsArea.setText("");
+            DataAnalyzer.calculateGenrePercentage(new String[]{"Rock", "Pop", "Rock"});
         });
     }
+    
 
 
     public static void main(String[] args) {
